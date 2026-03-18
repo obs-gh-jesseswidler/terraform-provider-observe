@@ -213,9 +213,12 @@ func TestAccObserveSourceDatasetStageCorrelationTag(t *testing.T) {
 }
 
 // TestAccObserveBuiltinDataset tests that we can read a dataset using a built-in transform.
+// Requires the "Tracing/Canonical Trace" built-in dataset to exist on the test customer.
+// This content is auto-created by the platform when tracing data flows in, and is not
+// available on fresh customers. Set OBSERVE_HAS_BUILTIN_CONTENT=true to enable this test.
 func TestAccObserveBuiltinDataset(t *testing.T) {
-	if os.Getenv("CI") != "true" {
-		t.Skip("CI != true. This test requires the tracing built-in content to be installed.")
+	if os.Getenv("OBSERVE_HAS_BUILTIN_CONTENT") != "true" {
+		t.Skip("OBSERVE_HAS_BUILTIN_CONTENT != true. This test requires the tracing built-in content to exist on the test customer.")
 	}
 
 	resource.Test(t, resource.TestCase{
